@@ -29,6 +29,8 @@ public class User extends AbstractDomainClass  {
     //     inverseJoinColumns = @joinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<>();
 
+    private Integer failedLoginAttempts = 0;
+
     public String getUsername() {
         return username;
     }
@@ -99,5 +101,13 @@ public class User extends AbstractDomainClass  {
     public void removeRole(Role role){
         this.roles.remove(role);
         role.getUsers().remove(this);
+    }
+
+    public Integer getFailedLoginAttempts() {
+        return failedLoginAttempts;
+    }
+
+    public void setFailedLoginAttempts(Integer failedLoginAttempts) {
+        this.failedLoginAttempts = failedLoginAttempts;
     }
 }
