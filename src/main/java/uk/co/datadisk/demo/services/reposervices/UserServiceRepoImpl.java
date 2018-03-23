@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import uk.co.datadisk.demo.domain.User;
 import uk.co.datadisk.demo.repositories.UserRepository;
 import uk.co.datadisk.demo.services.UserService;
@@ -29,6 +30,7 @@ public class UserServiceRepoImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<?> listAll() {
         List<User> users = new ArrayList<>();
         userRepository.findAll().forEach(users::add); //fun with Java 8
@@ -36,12 +38,13 @@ public class UserServiceRepoImpl implements UserService {
     }
 
     @Override
-    @Cacheable("username")
+    @Transactional(readOnly = true)
     public User getById(Integer id) {
         return userRepository.findOne(id);
     }
 
     @Override
+    @Cacheable("user")
     public User saveOrUpdate(User domainObject) {
         if(domainObject.getPassword() != null){
             domainObject.setEncryptedPassword(encryptionService.encryptString(domainObject.getPassword()));
