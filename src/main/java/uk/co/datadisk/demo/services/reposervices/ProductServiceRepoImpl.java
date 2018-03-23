@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import uk.co.datadisk.demo.domain.Product;
 import uk.co.datadisk.demo.repositories.ProductRepository;
 import uk.co.datadisk.demo.services.ProductService;
+import uk.co.datadisk.demo.services.SendTextMessageService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,15 +16,24 @@ import java.util.List;
 public class ProductServiceRepoImpl implements ProductService {
 
     private ProductRepository productRepository;
+    private SendTextMessageService sendTextMessageService;
 
     @Autowired
     public void setProductRepository(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
+    @Autowired
+    public void setSendTextMessageService(SendTextMessageService sendTextMessageService) {
+        this.sendTextMessageService = sendTextMessageService;
+    }
+
     @Override
     public List<?> listAll() {
         System.out.println("Using new JPA Repo - listAll");
+
+        sendTextMessageService.sendTextMessage("Listing Products");
+
         List<Product> products = new ArrayList<>();
         productRepository.findAll().forEach(products::add); //fun with Java 8
         return products;
@@ -31,6 +41,8 @@ public class ProductServiceRepoImpl implements ProductService {
 
     @Override
     public Product getById(Integer id) {
+        sendTextMessageService.sendTextMessage("Requested Product ID: " + id);
+
         return productRepository.findOne(id);
     }
 
