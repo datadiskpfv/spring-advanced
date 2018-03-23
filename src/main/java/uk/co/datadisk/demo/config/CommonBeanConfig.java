@@ -1,6 +1,7 @@
 package uk.co.datadisk.demo.config;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -9,6 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Configuration
 @EnableJpaRepositories("uk.co.datadisk.demo.repositories")
 @EnableScheduling
+@EnableCaching
 public class CommonBeanConfig {
 
     @Bean

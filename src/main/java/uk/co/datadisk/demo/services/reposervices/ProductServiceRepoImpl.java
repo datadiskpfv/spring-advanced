@@ -1,8 +1,10 @@
 package uk.co.datadisk.demo.services.reposervices;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import uk.co.datadisk.demo.domain.Product;
 import uk.co.datadisk.demo.repositories.ProductRepository;
 import uk.co.datadisk.demo.services.ProductService;
@@ -29,6 +31,7 @@ public class ProductServiceRepoImpl implements ProductService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<?> listAll() {
         System.out.println("Using new JPA Repo - listAll");
 
@@ -40,6 +43,7 @@ public class ProductServiceRepoImpl implements ProductService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Product getById(Integer id) {
         sendTextMessageService.sendTextMessage("Requested Product ID: " + id);
 
@@ -47,6 +51,7 @@ public class ProductServiceRepoImpl implements ProductService {
     }
 
     @Override
+    @Cacheable("product")
     public Product saveOrUpdate(Product domainObject) {
         return productRepository.save(domainObject);
     }

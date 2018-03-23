@@ -1,5 +1,6 @@
 package uk.co.datadisk.demo.domain;
 
+import org.springframework.cache.annotation.Cacheable;
 import uk.co.datadisk.demo.domain.security.Role;
 
 import javax.persistence.*;

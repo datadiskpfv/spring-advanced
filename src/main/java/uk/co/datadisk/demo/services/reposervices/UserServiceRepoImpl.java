@@ -1,7 +1,10 @@
 package uk.co.datadisk.demo.services.reposervices;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Profile;
+import org.springframework.jmx.export.annotation.ManagedOperation;
+import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.stereotype.Service;
 import uk.co.datadisk.demo.domain.User;
 import uk.co.datadisk.demo.repositories.UserRepository;
@@ -13,6 +16,7 @@ import java.util.List;
 
 @Service
 @Profile("springdatajpa")
+@ManagedResource("Datadisk:application=userservices")
 public class UserServiceRepoImpl implements UserService {
 
     private UserRepository userRepository;
@@ -32,6 +36,7 @@ public class UserServiceRepoImpl implements UserService {
     }
 
     @Override
+    @Cacheable("username")
     public User getById(Integer id) {
         return userRepository.findOne(id);
     }

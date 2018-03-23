@@ -1,5 +1,6 @@
 package uk.co.datadisk.demo.domain;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import java.math.BigDecimal;
 
